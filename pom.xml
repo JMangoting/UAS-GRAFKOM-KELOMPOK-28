@@ -20,6 +20,42 @@
         <lwjgl.natives>natives-windows</lwjgl.natives>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>windows-profile</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <native.target>natives-windows</native.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux-profile</id>
+            <activation>
+                <os>
+                    <family>Linux</family>
+                </os>
+            </activation>
+            <properties>
+                <native.target>natives-linux</native.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>OSX-profile</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <native.target>natives-osx</native.target>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -31,6 +67,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 
     <dependencies>
         <dependency>
