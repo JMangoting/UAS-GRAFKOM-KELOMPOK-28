@@ -10,34 +10,44 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_POLYGON;
 
 public class Torus extends Circle{
-    float radiusX;
+    float radius;
 
-    float radiusY;
-    int stackCount;
-    int sectorCount;
-    public Torus(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color, List<Float> centerPoint, Float radiusX, Float radiusY, int sectorCount, int stackCount){
+    float ringRadius;
+    int circleCount;
+    int ringCount;
+    public Torus(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color, List<Float> centerPoint, Float radius, Float ringRadius, int circleCount, int ringCount) {
         super(shaderModuleDataList, vertices, color, centerPoint);
-        this.radiusX = radiusX;
-        this.radiusY = radiusY;
-        this.sectorCount = sectorCount;
-        this.stackCount = stackCount;
+        this.radius = radius;
+        this.ringRadius = ringRadius;
+        this.circleCount = circleCount;
+        this.ringCount = ringCount;
         createTorus();
         setupVAOVBO();
     }
 
+
     public void createTorus() {
-        vertices.clear();
+        float pi = (float)Math.PI;
 
-        ArrayList<Vector3f> temp = new ArrayList<>();
+        float circleStep = 2 * (float)Math.PI / circleCount;
+        float ringStep = 2 * (float)Math.PI / ringCount;
+        float circleAngle = 0.0f, ringAngle= 0.0f , x, y, z;
 
-        for (double i = 0; i < 2 * Math.PI; i += 2 * Math.PI / sectorCount) {
-            for (double j = 0; j < 2 * Math.PI; j += 2 * Math.PI / stackCount) {
-                float x = (float) ((radiusX + radiusY * Math.cos(j)) * Math.cos(i));
-                float y = (float) ((radiusX + radiusY * Math.cos(j)) * Math.sin(i));
-                float z = (float) (radiusY * Math.sin(j));
-                temp.add(new Vector3f(x + centerPoint.get(0), y + centerPoint.get(1), z + centerPoint.get(2)));
+        for (int i = 0; i <= ringCount; ++i) {
+            ringAngle = i * ringStep;
+            x = (radius + ringRadius * (float)Math.cos(ringAngle)) * (float)Math.cos(circleAngle);
+            y = (radius + ringRadius * (float)Math.cos(ringAngle)) * (float)Math.sin(circleAngle);
+            z = ringRadius * (float)Math.sin(ringAngle);
+
+            for (int j = 0; j <= circleCount; ++j) {
+                circleAngle = j * circleStep;
+                Vector3f temp_vector = new Vector3f();
+                temp_vector.x = centerPoint.get(0) + x;
+                temp_vector.y = centerPoint.get(1) + y;
+                temp_vector.z = centerPoint.get(2) + z * (float)Math.cos(circleAngle);
+                vertices.add(temp_vector);
             }
         }
-        vertices = temp;
     }
+
 }

@@ -311,23 +311,6 @@ public class Main {
                 2
         ));
 
-        makeTorus.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.7f,0.7f,0.7f,1.0f),
-                Arrays.asList(1.0f,1.0f,1.0f),
-                0.250f,
-                0.250f,
-                0.250f,
-                36,
-                18,
-                2
-        ));
-
-
 //        objects.get(0).translateObject(0.5f,0.0f,0.0f);
 //        objects.get(0).scaleObject(5f,5f,5f);
 //
@@ -481,9 +464,7 @@ public class Main {
                 object.draw(camera,projection);
             }
 
-            for(Object object: makeTorus){
-                object.draw(camera,projection);
-            }
+
 
 
 //            for(Object object: objectsRectangle){
