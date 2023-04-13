@@ -9,33 +9,32 @@ import java.util.List;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_POLYGON;
 
-public class Sphere extends Circle{
+public class HalfEllipsoid extends Circle{
     float radiusZ;
     int stackCount;
     int sectorCount;
-    public Sphere(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color, List<Float> centerPoint, Float radiusX, Float radiusY, Float radiusZ,
+    public HalfEllipsoid(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color, List<Float> centerPoint, Float radiusX, Float radiusY, Float radiusZ,
                   int sectorCount,int stackCount) {
         super(shaderModuleDataList, vertices, color, centerPoint, radiusX, radiusY);
         this.radiusZ = radiusZ;
         this.stackCount = stackCount;
         this.sectorCount = sectorCount;
-//        createBox();
-        createSphere();
+        createHalfEllipsoid();
         setupVAOVBO();
     }
 
-    public void createSphere(){
+    public void createHalfEllipsoid(){
         float pi = (float)Math.PI;
 
         float sectorStep = 2 * (float)Math.PI / sectorCount;
-        float stackStep = (float)Math.PI / stackCount;
+        float stackStep = (float)Math.PI / (stackCount/2); //mengubah jumlah stack menjadi setengah dari jumlah aslinya
         float sectorAngle, StackAngle, x, y, z;
 
-        for (int i = 0; i <= stackCount; ++i)
+        for (int i = 0; i <= stackCount/2; ++i) //mengubah jumlah stack menjadi setengah dari jumlah aslinya
         {
             StackAngle = pi / 2 - i * stackStep;
-            x = radiusX * (float)Math.cos(StackAngle);
-            y = radiusY * (float)Math.cos(StackAngle);
+            x = radiusX / 2 * (float)Math.cos(StackAngle); //membagi radiusX dengan 2
+            y = radiusY / 2 * (float)Math.cos(StackAngle); //membagi radiusY dengan 2
             z = radiusZ * (float)Math.sin(StackAngle);
 
             for (int j = 0; j <= sectorCount; ++j)

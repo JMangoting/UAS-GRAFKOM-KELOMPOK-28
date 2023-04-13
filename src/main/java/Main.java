@@ -26,7 +26,7 @@ public class Main {
     private ArrayList<Object> makeCylinder
             = new ArrayList<>();
 
-    private ArrayList<Object> objectsRectangle
+    private ArrayList<Object> makeHalfEllipsoid
             = new ArrayList<>();
 
     private ArrayList<Object> objectsPointsControl
@@ -40,8 +40,8 @@ public class Main {
         window.init();
         GL.createCapabilities();
         mouseInput = window.getMouseInput();
-        camera.setPosition(0.0f,0.25f,0.35f);
-        camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(0.0f));
+        camera.setPosition(0.0f,0.25f,1f);
+        camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(45.0f));
         //code
 //        objects.add(new Object2d(
 //            Arrays.asList(
@@ -146,13 +146,43 @@ public class Main {
                 ),
                 new ArrayList<>(),
                 new Vector4f(1.0f,1.0f,0.3f,1.0f),
-                Arrays.asList(0.3f,0.3f,0.3f),
-                0.2f,
-                0.2f,
-                0.2f,
+                Arrays.asList(0.0f,0.35f,0.0f),
+                0.1f,
+                0.1f,
+                0.1f,
                 36,
                 18
         ));
+
+//        makeCylinder.add(new Cylinder(
+//                Arrays.asList(
+//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+//                ),
+//                new ArrayList<>(),
+//                new Vector4f(1.0f,1.0f,0.3f,1.0f),
+//                Arrays.asList(0.0f,0.5f,0.0f),
+//                0.08f,
+//                0.1f,
+//                36,
+//                18
+//        ));
+
+        makeHalfEllipsoid.add(new HalfEllipsoid(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,1.0f,0.0f,1.0f),
+                Arrays.asList(0.5f,0.5f,0.0f),
+                0.250f,
+                0.250f,
+                0.250f,
+                36,
+                18
+        ));
+
 
 //        objects.get(0).translateObject(0.5f,0.0f,0.0f);
 //        objects.get(0).scaleObject(5f,5f,5f);
@@ -208,6 +238,13 @@ public class Main {
 //        objects.get(0).getChildObject().get(1).getChildObject().get(0).scaleObject(0.5f,0.5f,0.5f);
 //        objects.get(0).getChildObject().get(1).getChildObject().get(0).translateObject(0.5f,-0.1f,0.0f);
 //        objects.get(0).getChildObject().get(1).getChildObject().get(0).setCenterPoint(Arrays.asList(0.5f,-0.1f,0.0f));
+    }
+
+    public void rotate(){
+        for ( float i = 0.0f; i <= (float) Math.toRadians(360.0f); i++){
+            countDegree++;
+            makeCylinder.get(0).rotateObject((float) Math.toRadians(0.3f),0.0f,1.0f,0.0f);
+        }
     }
     public void input(){
 //        if (window.isKeyPressed(GLFW_KEY_W)) {
@@ -280,6 +317,7 @@ public class Main {
                     0.0f, 0.0f,
                     0.0f);
             GL.createCapabilities();
+//            rotate();
             input();
 
             //code
@@ -290,6 +328,11 @@ public class Main {
             for(Object object: makeBox){
                 object.draw(camera,projection);
             }
+
+            for(Object object: makeCylinder){
+                object.draw(camera,projection);
+            }
+
 
 //            for(Object object: objectsRectangle){
 //                object.draw();

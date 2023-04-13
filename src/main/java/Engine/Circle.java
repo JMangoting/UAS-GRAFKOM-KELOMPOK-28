@@ -20,6 +20,12 @@ public class Circle extends Object {
         createCircle();
         setupVAOVBO();
     }
+
+    public Circle(List<ShaderModuleData> shaderModuleDataList, List<Vector3f> vertices, Vector4f color, List<Float> centerPoint) {
+        super(shaderModuleDataList, vertices, color);
+        this.centerPoint = centerPoint;
+    }
+
     public double degToRad(float degree){
         return (degree * Math.PI / (float) 180);
     }
