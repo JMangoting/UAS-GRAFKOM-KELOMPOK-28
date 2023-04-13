@@ -29,6 +29,9 @@ public class Main {
     private ArrayList<Object> makeEllipsoid
             = new ArrayList<>();
 
+    private ArrayList<Object> makeTorus
+            = new ArrayList<>();
+
     private ArrayList<Object> objectsPointsControl
             = new ArrayList<>();
 
@@ -138,15 +141,15 @@ public class Main {
 //                36,
 //                18
 //        ));
-
+        //wall-e character
         makeBox.add(new Box(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,0.3f,1.0f),
-                Arrays.asList(0.0f,0.35f,0.0f),
+                new Vector4f(0.960f, 0.914f, 0.0480f,1.0f),
+                Arrays.asList(0.0f,0.075f,0.0f),
                 0.1f,
                 0.1f,
                 0.1f,
@@ -154,6 +157,129 @@ public class Main {
                 18
         ));
 
+        makeBox.add(new Box(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.480f, 0.478f, 0.446f,1.0f),
+                Arrays.asList(0.0f,0.145f,0.0f),
+                0.025f,
+                0.04f,
+                0.02f,
+                36,
+                18
+        ));
+        //left eye steel
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.960f, 0.914f, 0.0480f,1.0f),
+                Arrays.asList(-0.025f,0.165f,0.0f),
+                0.025f,
+                0.03f,
+                36,
+                18
+        ));
+        //right eye steel
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.960f, 0.914f, 0.0480f,1.0f),
+                Arrays.asList(0.025f,0.165f,0.0f),
+                0.025f,
+                0.03f,
+                36,
+                18
+        ));
+        //left eye putih
+        makeEllipsoid.add(new Ellipsoid(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,1.0f,1.0f,1.0f),
+                Arrays.asList(-0.025f,0.165f,0.01f),
+                0.02f,
+                0.02f,
+                0.02f,
+                36,
+                18,
+                1
+        ));
+        //right eye putih
+        makeEllipsoid.add(new Ellipsoid(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,1.0f,1.0f,1.0f),
+                Arrays.asList(0.025f,0.165f,0.01f),
+                0.02f,
+                0.02f,
+                0.02f,
+                36,
+                18,
+                1
+        ));
+        //black eye left
+        makeEllipsoid.add(new Ellipsoid(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.0f,0.0f,0.0f,1.0f),
+                Arrays.asList(-0.025f,0.165f,0.015f),
+                0.017f,
+                0.017f,
+                0.017f,
+                36,
+                18,
+                1
+        ));
+        //black eye right
+        makeEllipsoid.add(new Ellipsoid(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.0f,0.0f,0.0f,1.0f),
+                Arrays.asList(0.025f,0.165f,0.015f),
+                0.017f,
+                0.017f,
+                0.017f,
+                36,
+                18,
+                1
+        ));
+        //masih fail
+        makeTorus.add(new Torus(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,1.0f,1.0f,1.0f),
+                Arrays.asList(0.5f,0.5f,0.5f),
+                0.017f,
+                0.017f,
+                36,
+                18
+        ));
+
+
+        //rocket
         makeCylinder.add(new Cylinder(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
@@ -168,14 +294,31 @@ public class Main {
                 18
         ));
 
+        //planet
         makeEllipsoid.add(new Ellipsoid(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,0.0f,1.0f),
+                new Vector4f(0.75f,0.75f,0.75f,1.0f),
                 Arrays.asList(0.0f,0.0f,0.0f),
+                0.250f,
+                0.250f,
+                0.250f,
+                36,
+                18,
+                2
+        ));
+
+        makeTorus.add(new Ellipsoid(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.7f,0.7f,0.7f,1.0f),
+                Arrays.asList(1.0f,1.0f,1.0f),
                 0.250f,
                 0.250f,
                 0.250f,
@@ -335,6 +478,10 @@ public class Main {
             }
 
             for(Object object: makeEllipsoid){
+                object.draw(camera,projection);
+            }
+
+            for(Object object: makeTorus){
                 object.draw(camera,projection);
             }
 
