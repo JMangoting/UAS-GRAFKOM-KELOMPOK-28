@@ -26,7 +26,7 @@ public class Main {
     private ArrayList<Object> makeCylinder
             = new ArrayList<>();
 
-    private ArrayList<Object> makeHalfEllipsoid
+    private ArrayList<Object> makeEllipsoid
             = new ArrayList<>();
 
     private ArrayList<Object> objectsPointsControl
@@ -41,7 +41,7 @@ public class Main {
         GL.createCapabilities();
         mouseInput = window.getMouseInput();
         camera.setPosition(0.0f,0.25f,1f);
-        camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(45.0f));
+        camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(0.0f));
         //code
 //        objects.add(new Object2d(
 //            Arrays.asList(
@@ -124,20 +124,20 @@ public class Main {
 //            new ArrayList<>(),
 //            new Vector4f(0.0f,1.0f,1.0f,1.0f)
 //        ));
-        makeSphere.add(new Sphere(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,0.0f,1.0f),
-                Arrays.asList(0.0f,0.0f,0.0f),
-                0.250f,
-                0.250f,
-                0.250f,
-                36,
-                18
-        ));
+//        makeSphere.add(new Sphere(
+//                Arrays.asList(
+//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+//                ),
+//                new ArrayList<>(),
+//                new Vector4f(1.0f,1.0f,0.0f,1.0f),
+//                Arrays.asList(0.0f,0.0f,0.0f),
+//                0.250f,
+//                0.250f,
+//                0.250f,
+//                36,
+//                18
+//        ));
 
         makeBox.add(new Box(
                 Arrays.asList(
@@ -154,33 +154,34 @@ public class Main {
                 18
         ));
 
-//        makeCylinder.add(new Cylinder(
-//                Arrays.asList(
-//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
-//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-//                ),
-//                new ArrayList<>(),
-//                new Vector4f(1.0f,1.0f,0.3f,1.0f),
-//                Arrays.asList(0.0f,0.5f,0.0f),
-//                0.08f,
-//                0.1f,
-//                36,
-//                18
-//        ));
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,1.0f,0.3f,1.0f),
+                Arrays.asList(0.0f,0.5f,0.0f),
+                0.08f,
+                0.1f,
+                36,
+                18
+        ));
 
-        makeHalfEllipsoid.add(new HalfEllipsoid(
+        makeEllipsoid.add(new Ellipsoid(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
                 ),
                 new ArrayList<>(),
                 new Vector4f(1.0f,1.0f,0.0f,1.0f),
-                Arrays.asList(0.5f,0.5f,0.0f),
+                Arrays.asList(0.0f,0.0f,0.0f),
                 0.250f,
                 0.250f,
                 0.250f,
                 36,
-                18
+                18,
+                2
         ));
 
 
@@ -330,6 +331,10 @@ public class Main {
             }
 
             for(Object object: makeCylinder){
+                object.draw(camera,projection);
+            }
+
+            for(Object object: makeEllipsoid){
                 object.draw(camera,projection);
             }
 
