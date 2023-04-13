@@ -17,8 +17,15 @@ public class Main {
     private Window window =
             new Window
                     (800,800,"Hello World");
-    private ArrayList<Object> objects
+    private ArrayList<Object> makeSphere
             = new ArrayList<>();
+
+    private ArrayList<Object> makeBox
+            = new ArrayList<>();
+
+    private ArrayList<Object> makeCylinder
+            = new ArrayList<>();
+
     private ArrayList<Object> objectsRectangle
             = new ArrayList<>();
 
@@ -33,8 +40,8 @@ public class Main {
         window.init();
         GL.createCapabilities();
         mouseInput = window.getMouseInput();
-        camera.setPosition(0.0f,0,1f);
-        camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(30.0f));
+        camera.setPosition(0.0f,0.25f,0.35f);
+        camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(0.0f));
         //code
 //        objects.add(new Object2d(
 //            Arrays.asList(
@@ -117,7 +124,7 @@ public class Main {
 //            new ArrayList<>(),
 //            new Vector4f(0.0f,1.0f,1.0f,1.0f)
 //        ));
-        objects.add(new Sphere(
+        makeSphere.add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
                         new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
@@ -131,6 +138,22 @@ public class Main {
                 36,
                 18
         ));
+
+        makeBox.add(new Box(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,1.0f,0.3f,1.0f),
+                Arrays.asList(0.3f,0.3f,0.3f),
+                0.2f,
+                0.2f,
+                0.2f,
+                36,
+                18
+        ));
+
 //        objects.get(0).translateObject(0.5f,0.0f,0.0f);
 //        objects.get(0).scaleObject(5f,5f,5f);
 //
@@ -260,9 +283,14 @@ public class Main {
             input();
 
             //code
-            for(Object object: objects){
+            for(Object object: makeSphere){
                 object.draw(camera,projection);
             }
+
+            for(Object object: makeBox){
+                object.draw(camera,projection);
+            }
+
 //            for(Object object: objectsRectangle){
 //                object.draw();
 //            }
