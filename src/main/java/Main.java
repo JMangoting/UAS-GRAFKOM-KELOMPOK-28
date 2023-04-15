@@ -341,7 +341,192 @@ public class Main {
                 18,
                 2
         ));
+
+        //BACKGROUND
+        //pohon 1
+        //batang pohon 1
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
+                Arrays.asList(-0.6f,0.0f,-0.1f),
+                0.05f,
+                0.2f,
+                36,
+                18
+        ));
+        makeCylinder.get(3).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
+        //daun pohon
+        makeCone.add(new Cone(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
+                Arrays.asList(-0.6f,0.0f,0.1f),
+                0.15f,
+                0.25f,
+                36,
+                18
+        ));
+        makeCone.get(1).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
+        makeCone.add(new Cone(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
+                Arrays.asList(-0.6f,0.0f,0.17f),
+                0.15f,
+                0.25f,
+                36,
+                18
+        ));
+        makeCone.get(2).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
+        makeCone.add(new Cone(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
+                Arrays.asList(-0.6f,0.0f,0.24f),
+                0.15f,
+                0.25f,
+                36,
+                18
+        ));
+        makeCone.get(3).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
+        //pohon 2
+        //batang pohon 2
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
+                Arrays.asList(0.6f,0.0f,-0.1f),
+                0.05f,
+                0.2f,
+                36,
+                18
+        ));
+        makeCylinder.get(4).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
+        //daun pohon
+        makeCone.add(new Cone(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
+                Arrays.asList(0.6f,0.0f,0.1f),
+                0.15f,
+                0.25f,
+                36,
+                18
+        ));
+        makeCone.get(4).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
+        makeCone.add(new Cone(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
+                Arrays.asList(0.6f,0.0f,0.17f),
+                0.15f,
+                0.25f,
+                36,
+                18
+        ));
+        makeCone.get(5).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
+        makeCone.add(new Cone(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
+                Arrays.asList(0.6f,0.0f,0.24f),
+                0.15f,
+                0.25f,
+                36,
+                18
+        ));
+        makeCone.get(6).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
+        //batang pohon 3
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
+                Arrays.asList(-0.6f,0.2f,0.0f),
+                0.05f,
+                0.1f,
+                36,
+                18
+        ));
+        makeCylinder.get(5).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
+        //batang pohon 4
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
+                Arrays.asList(-0.45f,0.1f,0.0f),
+                0.05f,
+                0.1f,
+                36,
+                18
+        ));
+        makeCylinder.get(6).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
+        //batang pohon 5
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
+                Arrays.asList(0.6f,0.2f,0.0f),
+                0.05f,
+                0.1f,
+                36,
+                18
+        ));
+        makeCylinder.get(7).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
+        //batang pohon 6
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
+                Arrays.asList(0.45f,0.1f,0.0f),
+                0.05f,
+                0.1f,
+                36,
+                18
+        ));
+        makeCylinder.get(8).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
+
+
+        //BOX belakang
     }
+
+
 
     public void rotate(){
         for ( float i = 0.0f; i <= (float) Math.toRadians(360.0f); i++){
