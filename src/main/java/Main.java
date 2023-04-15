@@ -17,8 +17,6 @@ public class Main {
     private Window window =
             new Window
                     (800,800,"Hello World");
-    private ArrayList<Object> makeSphere
-            = new ArrayList<>();
 
     private ArrayList<Object> makeBox
             = new ArrayList<>();
@@ -43,7 +41,7 @@ public class Main {
         window.init();
         GL.createCapabilities();
         mouseInput = window.getMouseInput();
-        camera.setPosition(0.0f,0.25f,1f);
+        camera.setPosition(0.0f,0.25f,1.5f);
         camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(0.0f));
         //code
 //        objects.add(new Object2d(
@@ -263,21 +261,6 @@ public class Main {
                 18,
                 1
         ));
-        //masih fail
-//        makeTorus.add(new Torus(
-//                Arrays.asList(
-//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
-//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-//                ),
-//                new ArrayList<>(),
-//                new Vector4f(1.0f,1.0f,1.0f,1.0f),
-//                Arrays.asList(0.5f,0.5f,0.5f),
-//                0.017f,
-//                0.017f,
-//                36,
-//                18
-//        ));
-
 
         //rocket
         makeCylinder.add(new Cylinder(
@@ -498,9 +481,9 @@ public class Main {
             input();
 
             //code
-            for(Object object: makeSphere){
-                object.draw(camera,projection);
-            }
+//            for(Object object: makeSphere){
+//                object.draw(camera,projection);
+//            }
 
             for(Object object: makeBox){
                 object.draw(camera,projection);
@@ -517,10 +500,7 @@ public class Main {
             for(Object object: makeCone){
                 object.draw(camera,projection);
             }
-
-
-
-
+            
 //            for(Object object: objectsRectangle){
 //                object.draw();
 //            }
