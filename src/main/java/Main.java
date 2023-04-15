@@ -41,7 +41,7 @@ public class Main {
         window.init();
         GL.createCapabilities();
         mouseInput = window.getMouseInput();
-        camera.setPosition(0.0f,0.25f,1.5f);
+        camera.setPosition(0.0f,0.25f,1.3f);
         camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(0.0f));
         //code
         //wall-e character
