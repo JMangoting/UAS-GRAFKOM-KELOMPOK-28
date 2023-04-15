@@ -29,7 +29,7 @@ public class Main {
     private ArrayList<Object> makeEllipsoid
             = new ArrayList<>();
 
-    private ArrayList<Object> makeTorus
+    private ArrayList<Object> makeCone
             = new ArrayList<>();
 
     private ArrayList<Object> objectsPointsControl
@@ -264,19 +264,19 @@ public class Main {
                 1
         ));
         //masih fail
-        makeTorus.add(new Torus(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,1.0f,1.0f),
-                Arrays.asList(0.5f,0.5f,0.5f),
-                0.017f,
-                0.017f,
-                36,
-                18
-        ));
+//        makeTorus.add(new Torus(
+//                Arrays.asList(
+//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+//                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+//                ),
+//                new ArrayList<>(),
+//                new Vector4f(1.0f,1.0f,1.0f,1.0f),
+//                Arrays.asList(0.5f,0.5f,0.5f),
+//                0.017f,
+//                0.017f,
+//                36,
+//                18
+//        ));
 
 
         //rocket
@@ -287,9 +287,56 @@ public class Main {
                 ),
                 new ArrayList<>(),
                 new Vector4f(1.0f,1.0f,0.3f,1.0f),
-                Arrays.asList(0.0f,0.5f,0.0f),
-                0.08f,
-                0.1f,
+                Arrays.asList(-0.4f,0.7f,-0.05f),
+                0.05f,
+                0.3f,
+                36,
+                18
+        ));
+
+        //moncong roket - cone
+        makeCone.add(new Cone(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0.5f,0.5f,1.0f),
+                Arrays.asList(-0.4f,0.7f,0.1f),
+                0.05f,
+                0.2f,
+                36,
+                18
+        ));
+
+        //kaki roket kiri
+        makeBox.add(new Box(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.5f, 0.5f, 0.446f,1.0f),
+                Arrays.asList(-0.46f,0.7f,-0.1f),
+                0.02f,
+                0.02f,
+                0.2f,
+                36,
+                18
+        ));
+
+        //kaki roket kanan
+        makeBox.add(new Box(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("Project1/GrafkomA/resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(0.5f, 0.5f, 0.446f,1.0f),
+                Arrays.asList(-0.34f,0.7f,-0.1f),
+                0.02f,
+                0.02f,
+                0.2f,
                 36,
                 18
         ));
@@ -303,15 +350,15 @@ public class Main {
                 new ArrayList<>(),
                 new Vector4f(0.75f,0.75f,0.75f,1.0f),
                 Arrays.asList(0.0f,0.0f,0.0f),
-                0.250f,
-                0.250f,
-                0.250f,
+                0.7f,
+                0.7f,
+                0.7f,
                 36,
                 18,
                 2
         ));
 
-//        objects.get(0).translateObject(0.5f,0.0f,0.0f);
+//        makeEllipsoid.get(0).translateObject(0.5f,0.0f,0.0f);
 //        objects.get(0).scaleObject(5f,5f,5f);
 //
 //        objects.get(0).getChildObject().add(new Sphere(
@@ -370,7 +417,10 @@ public class Main {
     public void rotate(){
         for ( float i = 0.0f; i <= (float) Math.toRadians(360.0f); i++){
             countDegree++;
-            makeCylinder.get(0).rotateObject((float) Math.toRadians(0.3f),0.0f,1.0f,0.0f);
+            makeCylinder.get(2).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
+            makeCone.get(0).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
+            makeBox.get(2).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
+            makeBox.get(3).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
         }
     }
     public void input(){
@@ -444,7 +494,7 @@ public class Main {
                     0.0f, 0.0f,
                     0.0f);
             GL.createCapabilities();
-//            rotate();
+            rotate();
             input();
 
             //code
@@ -461,6 +511,10 @@ public class Main {
             }
 
             for(Object object: makeEllipsoid){
+                object.draw(camera,projection);
+            }
+
+            for(Object object: makeCone){
                 object.draw(camera,projection);
             }
 
