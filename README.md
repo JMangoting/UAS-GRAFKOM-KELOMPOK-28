@@ -1,0 +1,6 @@
+# GrafkomA2223
+
+PROJEK UTS GRAFKOM 22/23
+TEMA : WALL-E MOVIE CHARACTER
+- Justian P. Mangoting - C14200075
+- Dave Handoko P. - C14200019
