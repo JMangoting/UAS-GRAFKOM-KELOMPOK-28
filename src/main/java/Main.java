@@ -183,6 +183,7 @@ public class Main {
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+<<<<<<< Updated upstream
                 ),
                 new ArrayList<>(),
                 new Vector4f(0.480f, 0.478f, 0.446f,1.0f),
@@ -213,6 +214,8 @@ public class Main {
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+=======
+>>>>>>> Stashed changes
                 ),
                 new ArrayList<>(),
                 new Vector4f(1.0f,1.0f,1.0f,1.0f),
@@ -225,7 +228,27 @@ public class Main {
                 1
         ));
 
+<<<<<<< Updated upstream
         //left front wheel
+=======
+
+        //rocket
+        makeCylinder.add(new Cylinder(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,1.0f,0.3f,1.0f),
+                Arrays.asList(0.0f,0.5f,0.0f),
+                0.08f,
+                0.1f,
+                36,
+                18
+        ));
+
+        //planet
+>>>>>>> Stashed changes
         makeEllipsoid.add(new Ellipsoid(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
