@@ -4,7 +4,6 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
-import java.lang.ClassNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +16,7 @@ import static org.lwjgl.opengl.GL30.*;
 public class Main {
     private Window window =
             new Window
-                    (800,800,"Hello World");
+                    (1920,1085,"Hello World");
 
     private ArrayList<Object> makeBox
             = new ArrayList<>();
@@ -31,13 +30,10 @@ public class Main {
     private ArrayList<Object> makeCone
             = new ArrayList<>();
 
-    private ArrayList<Object> objectsPointsControl
-            = new ArrayList<>();
-
     private ArrayList<Object> makeSphere
             = new ArrayList<>();
 
-    private ArrayList<Object> makeTorus
+    private ArrayList<Object> objectsPointsControl
             = new ArrayList<>();
 
     private MouseInput mouseInput;
@@ -48,12 +44,12 @@ public class Main {
         window.init();
         GL.createCapabilities();
         mouseInput = window.getMouseInput();
-        camera.setPosition(0.0f,0.25f,1.5f);
+        camera.setPosition(0.0f,0.35f,1.4f);
         glEnable(GL_DEPTH_TEST);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
         glDepthMask(true);
         glDepthFunc(GL_LEQUAL);
-        glDepthRange(0.85f, 2.0f);
+        glDepthRange(0.0f, 2.0f);
         camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(0.0f));
         //code
         //wall-e character
@@ -183,7 +179,6 @@ public class Main {
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-<<<<<<< Updated upstream
                 ),
                 new ArrayList<>(),
                 new Vector4f(0.480f, 0.478f, 0.446f,1.0f),
@@ -214,8 +209,6 @@ public class Main {
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-=======
->>>>>>> Stashed changes
                 ),
                 new ArrayList<>(),
                 new Vector4f(1.0f,1.0f,1.0f,1.0f),
@@ -228,27 +221,7 @@ public class Main {
                 1
         ));
 
-<<<<<<< Updated upstream
         //left front wheel
-=======
-
-        //rocket
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,0.3f,1.0f),
-                Arrays.asList(0.0f,0.5f,0.0f),
-                0.08f,
-                0.1f,
-                36,
-                18
-        ));
-
-        //planet
->>>>>>> Stashed changes
         makeEllipsoid.add(new Ellipsoid(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
@@ -298,7 +271,7 @@ public class Main {
                 1
         ));
 
-        //ROCKET
+        //rocket
         makeCylinder.add(new Cylinder(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
@@ -563,7 +536,6 @@ public class Main {
                 18
         ));
         makeCylinder.get(8).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
-        //BOX belakang
 
         //EVE character
         // eve's body
@@ -808,14 +780,13 @@ public class Main {
                 2
         ));
 
-
-
     }
 
 
 
+
+
     public void rotate(){
-        // rocket's rotation
         for ( float i = 0.0f; i <= (float) Math.toRadians(360.0f); i++){
             countDegree++;
             makeCylinder.get(2).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
@@ -835,9 +806,9 @@ public class Main {
             makeCylinder.get(9).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
             makeCone.get(7).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
         }
-
-
     }
+
+
     public void input() {
 
         //move wall-e
@@ -850,8 +821,8 @@ public class Main {
             for (int i = 0; i < 8; i++){
                 makeEllipsoid.get(i).translateObject(0.0f, 0.0f, -0.01f);
             }
-
         }
+
         if (window.isKeyPressed(GLFW_KEY_DOWN)) {
             for (int i = 0; i < 4; i++){
                 makeBox.get(i).translateObject(0.0f, 0.0f, 0.01f);
@@ -861,7 +832,6 @@ public class Main {
             for (int i = 0; i < 8; i++){
                 makeEllipsoid.get(i).translateObject(0.0f, 0.0f, 0.01f);
             }
-
         }
         if (window.isKeyPressed(GLFW_KEY_RIGHT)) {
             for (int i = 0; i < 4; i++){
@@ -872,7 +842,6 @@ public class Main {
             for (int i = 0; i < 8; i++){
                 makeEllipsoid.get(i).translateObject(0.01f, 0.0f, 0.0f);
             }
-
         }
         if (window.isKeyPressed(GLFW_KEY_LEFT)) {
             for (int i = 0; i < 4; i++){
@@ -883,25 +852,27 @@ public class Main {
             for (int i = 0; i < 8; i++){
                 makeEllipsoid.get(i).translateObject(-0.01f, 0.0f, 0.0f);
             }
-
         }
-
         // eve's character movements
+        // belakang
         if (window.isKeyPressed(GLFW_KEY_I)){
             for (int i = 9; i < 16; i++){
                 makeEllipsoid.get(i).translateObject(0.0f, 0.0f, -0.01f);
             }
         }
+        // depan
         if (window.isKeyPressed(GLFW_KEY_K)){
             for (int i = 9; i < 16; i++){
                 makeEllipsoid.get(i).translateObject(0.0f, 0.0f, 0.01f);
             }
         }
+        // kanan
         if (window.isKeyPressed(GLFW_KEY_L)){
             for (int i = 9; i < 16; i++){
                 makeEllipsoid.get(i).translateObject(0.01f, 0.0f, 0.0f);
             }
         }
+        // kiri
         if (window.isKeyPressed(GLFW_KEY_J)){
             for (int i = 9; i < 16; i++){
                 makeEllipsoid.get(i).translateObject(-0.01f, 0.0f, 0.0f);
@@ -910,12 +881,12 @@ public class Main {
 
 //            if (mouseInput.isLeftButtonPressed()) {
 //                Vector2f pos = mouseInput.getCurrentPos();
-////            System.out.println("x : "+pos.x+" y : "+pos.y);
+//            System.out.println("x : "+pos.x+" y : "+pos.y);
 //                pos.x = (pos.x - (window.getWidth()) / 2.0f) /
 //                        (window.getWidth() / 2.0f);
 //                pos.y = (pos.y - (window.getHeight()) / 2.0f) /
 //                        (-window.getHeight() / 2.0f);
-//                //System.out.println("x : "+pos.x+" y : "+pos.y);
+//                System.out.println("x : "+pos.x+" y : "+pos.y);
 //
 //                if ((!(pos.x > 1 || pos.x < -0.97) && !(pos.y > 0.97 || pos.y < -1))) {
 //                    System.out.println("x : " + pos.x + " y : " + pos.y);
@@ -923,64 +894,73 @@ public class Main {
 //                }
 //            }
 
-            if (window.isKeyPressed(GLFW_KEY_W)) {
-                camera.moveForward(0.005f);
-            }
-            if (window.isKeyPressed(GLFW_KEY_S)) {
-                camera.moveBackwards(0.005f);
-            }
-            if (window.isKeyPressed(GLFW_KEY_A)) {
-                camera.moveLeft(0.005f);
-            }
-            if (window.isKeyPressed(GLFW_KEY_D)) {
-                camera.moveRight(0.005f);
-            }
-            if (window.isKeyPressed(GLFW_KEY_SPACE)) {
-                camera.moveUp(0.005f);
-            }
-            if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-                camera.moveDown(0.005f);
-            }
+        if (window.isKeyPressed(GLFW_KEY_W)) {
+            camera.moveForward(0.005f);
         }
+        if (window.isKeyPressed(GLFW_KEY_S)) {
+            camera.moveBackwards(0.005f);
+        }
+        if (window.isKeyPressed(GLFW_KEY_A)) {
+            camera.moveLeft(0.005f);
+        }
+        if (window.isKeyPressed(GLFW_KEY_D)) {
+            camera.moveRight(0.005f);
+        }
+        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
+            camera.moveUp(0.005f);
+        }
+        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+            camera.moveDown(0.005f);
+        }
+    }
 
-        public void loop () {
-            while (window.isOpen()) {
-                window.update();
-                glClearColor(0.0f,
-                        0.0f, 0.0f,
-                        0.0f);
-                GL.createCapabilities();
-                rotate();
-                input();
+    public ArrayList<Vector3f> generateBezierPoints(float firstX, float firstY, float firstZ, float secondX, float secondY, float secondZ, float thirdX, float thirdY, float thirdZ)
+    {
+        ArrayList<Vector3f> result = new ArrayList<>();
+        float newX, newY, newZ;
+        for(double i = 0; i <=1; i+= 0.01)
+        {
+            newX = (float) ((Math.pow((1-i), 2) * firstX) + (2 * (1-i) * i * secondX) + (Math.pow(i, 2) * thirdX));
+            newY = (float) ((Math.pow((1-i), 2) * firstY) + (2 * (1-i) * i * secondY) + (Math.pow(i, 2) * thirdY));
+            newZ = (float) ((Math.pow((1-i), 2) * firstZ) + (2 * (1-i) * i * secondZ) + (Math.pow(i, 2) * thirdZ));
+            result.add(new Vector3f(newX, newY, newZ));
+        }
+        return result;
+    }
 
-                //code
+    public void loop () {
+        while (window.isOpen()) {
+            window.update();
+            glClearColor(0.0f,
+                    0.0f, 0.0f,
+                    0.0f);
+            GL.createCapabilities();
+            rotate();
+            input();
+
+            //code
 //            for(Object object: makeSphere){
 //                object.draw(camera,projection);
 //            }
 
-                for (Object object : makeBox) {
-                    object.draw(camera, projection);
-                }
+            for (Object object : makeBox) {
+                object.draw(camera, projection);
+            }
 
-                for (Object object : makeCylinder) {
-                    object.draw(camera, projection);
-                }
+            for (Object object : makeCylinder) {
+                object.draw(camera, projection);
+            }
 
-                for (Object object : makeEllipsoid) {
-                    object.draw(camera, projection);
-                }
+            for (Object object : makeEllipsoid) {
+                object.draw(camera, projection);
+            }
 
-                for (Object object : makeCone) {
-                    object.draw(camera, projection);
-                }
-
-                for (Object object : makeSphere) {
-                    object.draw(camera, projection);
-                }
-
-//                for (Object object : makeTorus) {
-//                    object.draw(camera, projection);
-//                }
+            for (Object object : makeCone) {
+                object.draw(camera, projection);
+            }
+            for (Object object : makeSphere) {
+                object.draw(camera, projection);
+            }
 
 //            for(Object object: objectsRectangle){
 //                object.draw();
@@ -989,15 +969,15 @@ public class Main {
 //                object.drawLine();
 //            }
 
-                // Restore state
-                glDisableVertexAttribArray(0);
+            // Restore state
+            glDisableVertexAttribArray(0);
 
-                // Poll for window events.
-                // The key callback above will only be
-                // invoked during this call.
-                glfwPollEvents();
-            }
+            // Poll for window events.
+            // The key callback above will only be
+            // invoked during this call.
+            glfwPollEvents();
         }
+    }
     public void run() {
 
         init();
