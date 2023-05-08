@@ -68,6 +68,14 @@ public class Circle extends Object {
             }
         }
     }
+    public void updateCenterPoint(){
+        Vector3f destTemp = new Vector3f();
+        model.transformPosition(0.0f,0.0f,0.0f,destTemp);
+        centerPoint.set(0,destTemp.x);
+        centerPoint.set(1,destTemp.y);
+        centerPoint.set(2,destTemp.z);
+        System.out.println(centerPoint.get(0) + " " + centerPoint.get(1));
+    }
 //    public void draw(){
 //        drawSetup();
 //        glDrawArrays(GL_TRIANGLE_FAN, 0, vertices.size());

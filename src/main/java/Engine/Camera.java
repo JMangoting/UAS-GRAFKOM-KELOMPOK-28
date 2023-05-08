@@ -2,6 +2,8 @@ package Engine;
 
 import org.joml.*;
 
+import java.util.List;
+
 public class Camera {
 
     private Vector3f direction;
@@ -10,6 +12,10 @@ public class Camera {
     private Vector2f rotation;
     private Vector3f up;
     private Matrix4f viewMatrix;
+
+    List<Float> centerPoint;
+
+    Matrix4f model;
 
     public Camera() {
         direction = new Vector3f();

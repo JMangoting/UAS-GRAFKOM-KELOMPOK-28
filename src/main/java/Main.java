@@ -16,7 +16,8 @@ import static org.lwjgl.opengl.GL30.*;
 public class Main {
     private Window window =
             new Window
-                    (800,800,"Hello World");
+                    (800,800
+                            ,"Hello World");
 
     private ArrayList<Object> makeBox
             = new ArrayList<>();
@@ -807,6 +808,15 @@ public class Main {
             makeCylinder.get(9).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
             makeCone.get(7).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
         }
+        //camera rotation
+        //x
+        for (float i = (float) Math.toRadians(360.0f); i >= 0.0f; i -= (float) Math.toRadians(1.0f)){
+            camera.addRotation( (float) Math.toRadians( i * 0.001f),0f);
+        }
+        //y
+        for (float i = (float) Math.toRadians(360.0f); i >= 0.0f; i -= (float) Math.toRadians(1.0f)){
+            camera.addRotation( 0f,(float) Math.toRadians( i * 0.001f));
+        }
     }
 
 
@@ -814,68 +824,68 @@ public class Main {
 
         //move wall-e
         if (window.isKeyPressed(GLFW_KEY_UP)) {
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 makeBox.get(i).translateObject(0.0f, 0.0f, -0.01f);
             }
             makeCylinder.get(0).translateObject(0.0f, 0.0f, -0.01f);
             makeCylinder.get(1).translateObject(0.0f, 0.0f, -0.01f);
-            for (int i = 0; i < 8; i++){
+            for (int i = 0; i < 8; i++) {
                 makeEllipsoid.get(i).translateObject(0.0f, 0.0f, -0.01f);
             }
         }
 
         if (window.isKeyPressed(GLFW_KEY_DOWN)) {
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 makeBox.get(i).translateObject(0.0f, 0.0f, 0.01f);
             }
             makeCylinder.get(0).translateObject(0.0f, 0.0f, 0.01f);
             makeCylinder.get(1).translateObject(0.0f, 0.0f, 0.01f);
-            for (int i = 0; i < 8; i++){
+            for (int i = 0; i < 8; i++) {
                 makeEllipsoid.get(i).translateObject(0.0f, 0.0f, 0.01f);
             }
         }
         if (window.isKeyPressed(GLFW_KEY_RIGHT)) {
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 makeBox.get(i).translateObject(0.01f, 0.0f, 0.0f);
             }
             makeCylinder.get(0).translateObject(0.01f, 0.0f, 0.0f);
             makeCylinder.get(1).translateObject(0.01f, 0.0f, 0.0f);
-            for (int i = 0; i < 8; i++){
+            for (int i = 0; i < 8; i++) {
                 makeEllipsoid.get(i).translateObject(0.01f, 0.0f, 0.0f);
             }
         }
         if (window.isKeyPressed(GLFW_KEY_LEFT)) {
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 makeBox.get(i).translateObject(-0.01f, 0.0f, 0.0f);
             }
             makeCylinder.get(0).translateObject(-0.01f, 0.0f, 0.0f);
             makeCylinder.get(1).translateObject(-0.01f, 0.0f, 0.0f);
-            for (int i = 0; i < 8; i++){
+            for (int i = 0; i < 8; i++) {
                 makeEllipsoid.get(i).translateObject(-0.01f, 0.0f, 0.0f);
             }
         }
         // eve's character movements
         // belakang
-        if (window.isKeyPressed(GLFW_KEY_I)){
-            for (int i = 9; i < 16; i++){
+        if (window.isKeyPressed(GLFW_KEY_I)) {
+            for (int i = 9; i < 16; i++) {
                 makeEllipsoid.get(i).translateObject(0.0f, 0.0f, -0.01f);
             }
         }
         // depan
-        if (window.isKeyPressed(GLFW_KEY_K)){
-            for (int i = 9; i < 16; i++){
+        if (window.isKeyPressed(GLFW_KEY_K)) {
+            for (int i = 9; i < 16; i++) {
                 makeEllipsoid.get(i).translateObject(0.0f, 0.0f, 0.01f);
             }
         }
         // kanan
-        if (window.isKeyPressed(GLFW_KEY_L)){
-            for (int i = 9; i < 16; i++){
+        if (window.isKeyPressed(GLFW_KEY_L)) {
+            for (int i = 9; i < 16; i++) {
                 makeEllipsoid.get(i).translateObject(0.01f, 0.0f, 0.0f);
             }
         }
         // kiri
-        if (window.isKeyPressed(GLFW_KEY_J)){
-            for (int i = 9; i < 16; i++){
+        if (window.isKeyPressed(GLFW_KEY_J)) {
+            for (int i = 9; i < 16; i++) {
                 makeEllipsoid.get(i).translateObject(-0.01f, 0.0f, 0.0f);
             }
         }
@@ -894,24 +904,46 @@ public class Main {
 ////                objectsPointsControl.get(0).addVertices(new Vector3f(pos.x,pos.y,0));
 //                }
 //            }
+//          camera project
+//        if (window.isKeyPressed(GLFW_KEY_W)) {
+//            camera.moveForward(0.005f);
+//        }
+//        if (window.isKeyPressed(GLFW_KEY_S)) {
+//            camera.moveBackwards(0.005f);
+//        }
+//        if (window.isKeyPressed(GLFW_KEY_A)) {
+//            camera.moveLeft(0.005f);
+//        }
+//        if (window.isKeyPressed(GLFW_KEY_D)) {
+//            camera.moveRight(0.005f);
+//        }
+//        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
+//            camera.moveUp(0.005f);
+//        }
+//        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+//            camera.moveDown(0.005f);
+//        }
 
+        float move = 0.01f;
         if (window.isKeyPressed(GLFW_KEY_W)) {
-            camera.moveForward(0.005f);
-        }
-        if (window.isKeyPressed(GLFW_KEY_S)) {
-            camera.moveBackwards(0.005f);
-        }
-        if (window.isKeyPressed(GLFW_KEY_A)) {
-            camera.moveLeft(0.005f);
+            camera.moveForward(move);
         }
         if (window.isKeyPressed(GLFW_KEY_D)) {
-            camera.moveRight(0.005f);
+            camera.moveRight(move);
         }
-        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
-            camera.moveUp(0.005f);
+        if (window.isKeyPressed(GLFW_KEY_A)) {
+            camera.moveLeft(move);
         }
-        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-            camera.moveDown(0.005f);
+        if (window.isKeyPressed(GLFW_KEY_S)) {
+            camera.moveBackwards(move);
+        }
+        if (mouseInput.isLeftButtonPressed()) {
+            Vector2f displayVec = window.getMouseInput().getDisplVec();
+            camera.addRotation((float) Math.toRadians(displayVec.x * 0.01f), (float) Math.toRadians(displayVec.y * 0.01f));
+        }
+        if (window.getMouseInput().getScroll().y != 0){
+            projection.setFOV(projection.getFOV()-(window.getMouseInput().getScroll().y * 0.01f));
+            window.getMouseInput().setScroll(new Vector2f());
         }
     }
 
