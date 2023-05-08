@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL30.*;
 public class Main {
     private Window window =
             new Window
-                    (1920,1085,"Hello World");
+                    (800,800,"Hello World");
 
     private ArrayList<Object> makeBox
             = new ArrayList<>();
@@ -50,6 +50,7 @@ public class Main {
         glDepthMask(true);
         glDepthFunc(GL_LEQUAL);
         glDepthRange(0.0f, 2.0f);
+        camera.setPosition(0.0f,0.25f,1.3f);
         camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(0.0f));
         //code
         //wall-e character
