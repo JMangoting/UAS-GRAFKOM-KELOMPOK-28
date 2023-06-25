@@ -1,1027 +1,610 @@
 import Engine.*;
 import Engine.Object;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import org.joml.*;
 import org.lwjgl.opengl.GL;
 
+import java.io.IOException;
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 
 public class Main {
-    private Window window =
-            new Window
-                    (800,800
-                            ,"Hello World");
-
-    private ArrayList<Object> makeBox
-            = new ArrayList<>();
-
-    private ArrayList<Object> makeCylinder
-            = new ArrayList<>();
-
-    private ArrayList<Object> makeEllipsoid
-            = new ArrayList<>();
-
-    private ArrayList<Object> makeCone
-            = new ArrayList<>();
-
-    private ArrayList<Object> makeSphere
-            = new ArrayList<>();
-
-    private ArrayList<Object> objectsPointsControl
-            = new ArrayList<>();
-
-    private MouseInput mouseInput;
-    int countDegree = 0;
-    Projection projection = new Projection(window.getWidth(),window.getHeight());
+    private Window window = new Window(1080, 1080, "Hello World");
+    ArrayList<Object> objectCar = new ArrayList<>();
+    ArrayList<Object> objectGround = new ArrayList<>();
+    ArrayList<Object> objectTree = new ArrayList<>();
+    ArrayList<Object> objectBarrier = new ArrayList<>();
     Camera camera = new Camera();
-    public void init(){
+    Projection projection = new Projection(window.getWidth(), window.getHeight());
+    float distance = 1f;
+    float angle = 0f;
+    float move = 0.01f;
+    List<Float> temp;
+    int cameraMode = 0;
+    public void run() throws IOException {
+
+        init();
+        loop();
+
+        // Terminate GLFW and free the error callback
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
+    }
+
+    public void init() throws IOException {
         window.init();
         GL.createCapabilities();
-        mouseInput = window.getMouseInput();
-        camera.setPosition(0.0f,0.35f,1.4f);
-        glEnable(GL_DEPTH_TEST);
-        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-        glDepthMask(true);
-        glDepthFunc(GL_LEQUAL);
-        glDepthRange(0.0f, 2.0f);
-        camera.setPosition(0.0f,0.25f,1.3f);
-        camera.setRotation((float)Math.toRadians(0.0f),(float)Math.toRadians(0.0f));
-        //code
-        //wall-e character
-        makeBox.add(new Box(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.960f, 0.914f, 0.0480f,1.0f),
-                Arrays.asList(0.0f,0.075f,0.0f),
-                0.1f,
-                0.1f,
-                0.1f,
-                36,
-                18
-        ));
+        camera.setPosition(0f, 0.5f, 0f);
 
-        makeBox.add(new Box(
+        // mobil (ObjectObj(0))
+        objectCar.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.480f, 0.478f, 0.446f,1.0f),
-                Arrays.asList(0.0f,0.145f,0.0f),
-                0.025f,
-                0.04f,
-                0.02f,
-                36,
-                18
+                new Vector4f(0.5f,0.5f,0.5f,1.0f),
+                "resources/model/mobil/mobil.obj"
         ));
-        //left eye steel
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.960f, 0.914f, 0.0480f,1.0f),
-                Arrays.asList(-0.025f,0.165f,0.0f),
-                0.025f,
-                0.03f,
-                36,
-                18
-        ));
-        //right eye steel
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.960f, 0.914f, 0.0480f,1.0f),
-                Arrays.asList(0.025f,0.165f,0.0f),
-                0.025f,
-                0.03f,
-                36,
-                18
-        ));
-        //left eye putih
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,1.0f,1.0f),
-                Arrays.asList(-0.025f,0.165f,0.01f),
-                0.02f,
-                0.02f,
-                0.02f,
-                36,
-                18,
-                1
-        ));
-        //right eye putih
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,1.0f,1.0f),
-                Arrays.asList(0.025f,0.165f,0.01f),
-                0.02f,
-                0.02f,
-                0.02f,
-                36,
-                18,
-                1
-        ));
-        //black eye left
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f,0.0f,0.0f,1.0f),
-                Arrays.asList(-0.025f,0.165f,0.015f),
-                0.017f,
-                0.017f,
-                0.017f,
-                36,
-                18,
-                1
-        ));
-        //black eye right
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f,0.0f,0.0f,1.0f),
-                Arrays.asList(0.025f,0.165f,0.015f),
-                0.017f,
-                0.017f,
-                0.017f,
-                36,
-                18,
-                1
-        ));
-        //right hand
-        makeBox.add(new Box(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.480f, 0.478f, 0.446f,1.0f),
-                Arrays.asList(0.06f,0.075f,0.0f),
-                0.02f,
-                0.05f,
-                0.05f,
-                36,
-                18
-        ));
-        //left hand
-        makeBox.add(new Box(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.480f, 0.478f, 0.446f,1.0f),
-                Arrays.asList(-0.06f,0.075f,0.0f),
-                0.02f,
-                0.05f,
-                0.05f,
-                36,
-                18
-        ));
-        //left back wheel
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,1.0f,1.0f),
-                Arrays.asList(-0.05f,0.025f,-0.05f),
-                0.017f,
-                0.017f,
-                0.017f,
-                36,
-                18,
-                1
-        ));
+        objectCar.get(0).scaleObject(4f,4f,4f);
+        objectCar.get(0).translateObject(0f, -0.05f, 2.4f);
 
-        //left front wheel
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,1.0f,1.0f),
-                Arrays.asList(-0.05f,0.025f,0.05f),
-                0.017f,
-                0.017f,
-                0.017f,
-                36,
-                18,
-                1
-        ));
-        //right front wheel
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,1.0f,1.0f),
-                Arrays.asList(0.05f,0.025f,0.05f),
-                0.017f,
-                0.017f,
-                0.017f,
-                36,
-                18,
-                1
-        ));
+//        // mobil (ObjectObj(1))
+//        objectCar.add(new Model(
+//                Arrays.asList(
+//                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+//                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+//                ),
+//                new ArrayList<>(),
+//                new Vector4f(0.5f,0.5f,0.5f,1.0f),
+//                "resources/model/mobil/mobil.obj"
+//        ));
+//        objectCar.get(1).scaleObject(4f,4f,4f);
+//        objectCar.get(1).translateObject(0.85f, 0f, -1.8f);
 
-        //right back wheel
-        makeEllipsoid.add(new Ellipsoid(
+        // rumput objectBottom0
+        objectGround.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(1.0f,1.0f,1.0f,1.0f),
-                Arrays.asList(0.05f,0.025f,-0.05f),
-                0.017f,
-                0.017f,
-                0.017f,
-                36,
-                18,
-                1
+                new Vector4f(0.01f,0.59f,0.17f,1.0f),
+                "resources/model/bottom/Terrain_Grass_Flat_1x1.obj"
         ));
+        objectGround.get(0).scaleObject(5f ,1f, 7f);
+        objectGround.get(0).translateObject(0f, -0.565f, 0f);
 
-        //rocket
-        makeCylinder.add(new Cylinder(
+        // jalan kiri objectBottom1
+        objectGround.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.217f, 0.0979f, 0.890f,1.0f),
-                Arrays.asList(-0.4f,0.7f,-0.05f),
-                0.05f,
-                0.3f,
-                36,
-                18
+                new Vector4f(0.05f,0.05f,0.05f,1.0f),
+                "resources/model/bottom/Terrain_Grass_Flat_1x1.obj"
         ));
+        objectGround.get(1).scaleObject(1.1f ,0.5f, 7f);
+        objectGround.get(1).translateObject(-0.55f, -0.312f, 0f);
 
-        //moncong roket - cone
-        makeCone.add(new Cone(
+        // jalan kanan objectBottom2
+        objectGround.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.860f, 0.051f, 0.0f,1.0f),
-                Arrays.asList(-0.4f,0.7f,0.1f),
-                0.05f,
-                0.2f,
-                36,
-                18,
-                1
+                new Vector4f(0.05f,0.05f,0.05f,1.0f),
+                "resources/model/bottom/Terrain_Grass_Flat_1x1.obj"
         ));
+        objectGround.get(2).scaleObject(1.1f ,0.5f, 7f);
+        objectGround.get(2).translateObject(0.55f, -0.312f, 0f);
 
-        //kaki roket kiri
-        makeBox.add(new Box(
+        // barrier kiri objectBarrier0
+        objectBarrier.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.690f, 0.697f, 0.697f,1.0f),
-                Arrays.asList(-0.46f,0.7f,-0.1f),
-                0.02f,
-                0.02f,
-                0.2f,
-                36,
-                18
+                new Vector4f(0.7f,0.7f,0.7f,1.0f),
+                "resources/model/barrier/box.obj"
         ));
+        objectBarrier.get(0).scaleObject(0.05f ,0.04f, 3.5f);
+        objectBarrier.get(0).translateObject(-1.2f, 0f, 0f);
 
-        //kaki roket kanan
-        makeBox.add(new Box(
+        // barrier kanan objectBarrier1
+        objectBarrier.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.690f, 0.697f, 0.697f,1.0f),
-                Arrays.asList(-0.34f,0.7f,-0.1f),
-                0.02f,
-                0.02f,
-                0.2f,
-                36,
-                18
+                new Vector4f(0.7f,0.7f,0.7f,1.0f),
+                "resources/model/barrier/box.obj"
         ));
+        objectBarrier.get(1).scaleObject(0.05f ,0.04f, 3.5f);
+        objectBarrier.get(1).translateObject(1.2f, 0f, 0f);
 
-        //planet - half ellipsoid
-        makeEllipsoid.add(new Ellipsoid(
+        //pohon objectTree0 (BAGIAN KIRI)
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.320f, 0.315f, 0.304f,1.0f),
-                Arrays.asList(0.0f,0.0f,0.0f),
-                0.8f,
-                0.7f,
-                0.8f,
-                36,
-                18,
-                2
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(0).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(0).translateObject(-1.4f, -0.05f, 0f);
 
-        //BACKGROUND
-        //pohon 1
-        //batang pohon 1
-        makeCylinder.add(new Cylinder(
+        //pohon objectTree1
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
-                Arrays.asList(-0.6f,0.0f,-0.1f),
-                0.05f,
-                0.2f,
-                36,
-                18
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
-        makeCylinder.get(3).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
-        //daun pohon
-        makeCone.add(new Cone(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
-                Arrays.asList(-0.6f,0.0f,0.1f),
-                0.15f,
-                0.25f,
-                36,
-                18,
-                1
-        ));
-        makeCone.get(1).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
-        makeCone.add(new Cone(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
-                Arrays.asList(-0.6f,0.0f,0.17f),
-                0.15f,
-                0.25f,
-                36,
-                18,
-                1
-        ));
-        makeCone.get(2).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
-        makeCone.add(new Cone(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
-                Arrays.asList(-0.6f,0.0f,0.24f),
-                0.15f,
-                0.25f,
-                36,
-                18,
-                1
-        ));
-        makeCone.get(3).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
-        //pohon 2
-        //batang pohon 2
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
-                Arrays.asList(0.6f,0.0f,-0.1f),
-                0.05f,
-                0.2f,
-                36,
-                18
-        ));
-        makeCylinder.get(4).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
-        //daun pohon
-        makeCone.add(new Cone(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
-                Arrays.asList(0.6f,0.0f,0.1f),
-                0.15f,
-                0.25f,
-                36,
-                18,
-                1
-        ));
-        makeCone.get(4).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
-        makeCone.add(new Cone(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
-                Arrays.asList(0.6f,0.0f,0.17f),
-                0.15f,
-                0.25f,
-                36,
-                18,
-                1
-        ));
-        makeCone.get(5).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
-        makeCone.add(new Cone(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f, 0.8f, 0.00f,1.0f),
-                Arrays.asList(0.6f,0.0f,0.24f),
-                0.15f,
-                0.25f,
-                36,
-                18,
-                1
-        ));
-        makeCone.get(6).rotateObject((float) Math.toRadians(-90.0f),1.0f,0.0f,0.0f);
-        //batang pohon 3
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
-                Arrays.asList(-0.6f,0.2f,0.0f),
-                0.05f,
-                0.1f,
-                36,
-                18
-        ));
-        makeCylinder.get(5).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
-        //batang pohon 4
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
-                Arrays.asList(-0.45f,0.1f,0.0f),
-                0.05f,
-                0.1f,
-                36,
-                18
-        ));
-        makeCylinder.get(6).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
-        //batang pohon 5
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
-                Arrays.asList(0.6f,0.2f,0.0f),
-                0.05f,
-                0.1f,
-                36,
-                18
-        ));
-        makeCylinder.get(7).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
-        //batang pohon 6
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.550f, 0.348f, 0.00f,1.0f),
-                Arrays.asList(0.45f,0.1f,0.0f),
-                0.05f,
-                0.1f,
-                36,
-                18
-        ));
-        makeCylinder.get(8).rotateObject((float) Math.toRadians(90.0f),1.0f,0.0f,0.0f);
+        objectTree.get(1).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(1).translateObject(-1.4f, -0.05f, 0.5f);
 
-        //EVE character
-        // eve's body
-        makeEllipsoid.add(new Ellipsoid(
+        //pohon objectTree2
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(1.0f, 1.0f, 1.0f,1.0f),
-                Arrays.asList(0.25f,0.15f,0.0f),
-                0.05f,
-                0.15f,
-                0.025f,
-                36,
-                18,
-                2
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
-        // eve's head
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f, 1.0f, 1.0f,1.0f),
-                Arrays.asList(0.25f,0.165f,0.0f),
-                0.05f,
-                0.055f,
-                0.025f,
-                36,
-                18,
-                3
-        ));
-        // eve's face
-        makeEllipsoid.add(new Ellipsoid(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.0f, 0.0f, 0.0f, 1.0f),
-                Arrays.asList(0.25f, 0.17f, 0.0185f),
-                0.035f,
-                0.045f,
-                0.01f,
-                36,
-                18,
-                3
-        ));
+        objectTree.get(2).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(2).translateObject(-1.4f, -0.05f, 1f);
 
-        // eve's right eye
-        makeEllipsoid.add(new Ellipsoid(
+        //pohon objectTree3
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.20f,0.73f,1.0f,1.0f),
-                Arrays.asList(0.235f, 0.185f, 0.0295f),
-                0.01f,
-                0.0065f,
-                0.01f,
-                36,
-                18,
-                1
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(3).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(3).translateObject(-1.4f, -0.05f, 1.5f);
 
-        // eve's left eye
-        makeEllipsoid.add(new Ellipsoid(
+        //pohon objectTree4
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.20f,0.73f,1.0f,1.0f),
-                Arrays.asList(0.265f, 0.185f, 0.0295f),
-                0.01f,
-                0.0065f,
-                0.01f,
-                36,
-                18,
-                1
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(4).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(4).translateObject(-1.4f, -0.05f, 2f);
 
-        // eve's right hand
-        makeEllipsoid.add(new Ellipsoid(
+        //pohon objectTree5
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(1.0f, 1.0f, 1.0f,1.0f),
-                Arrays.asList(0.3f,0.15f,0.0f),
-                0.025f,
-                0.095f,
-                0.025f,
-                36,
-                18,
-                4
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(5).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(5).translateObject(-1.4f, -0.05f, 2.5f);
 
-        // eve's left hand
-        makeEllipsoid.add(new Ellipsoid(
+        //pohon objectTree6
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(1.0f, 1.0f, 1.0f,1.0f),
-                Arrays.asList(0.2f,0.15f,0.0f),
-                0.025f,
-                0.095f,
-                0.025f,
-                36,
-                18,
-                5
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(6).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(6).translateObject(-1.4f, -0.05f, 2.5f);
 
-        // SATELIT
-        // top left
-        makeBox.add(new Box(
+        //pohon objectTree7
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.49f, 0.73f, 0.91f,1.0f),
-                Arrays.asList(-0.4f, 0.945f, 0.0f),
-                0.05f,
-                0.05f,
-                0.08f,
-                36,
-                18
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(7).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(7).translateObject(-1.4f, -0.05f, -0.5f);
 
-        // bottom left
-        makeBox.add(new Box(
+        //pohon objectTree8
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.49f, 0.73f, 0.91f,1.0f),
-                Arrays.asList(-0.4f, 0.885f, 0.0f),
-                0.05f,
-                0.05f,
-                0.08f,
-                36,
-                18
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(8).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(8).translateObject(-1.4f, -0.05f, -1f);
 
-        // midbox
-        makeBox.add(new Box(
+        //pohon objectTree9
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.49f, 0.73f, 0.91f,1.0f),
-                Arrays.asList(-0.355f, 0.925f, 0.0f),
-                0.05f,
-                0.05f,
-                0.08f,
-                36,
-                18
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(9).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(9).translateObject(-1.4f, -0.05f, -1.5f);
 
-        // top right
-        makeBox.add(new Box(
+        //pohon objectTree10
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.49f, 0.73f, 0.91f,1.0f),
-                Arrays.asList(-0.310f, 0.945f, 0.0f),
-                0.05f,
-                0.05f,
-                0.08f,
-                36,
-                18
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
+        objectTree.get(10).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(10).translateObject(-1.4f, -0.05f, -2f);
 
-        // bottom right
-        makeBox.add(new Box(
+        //pohon objectTree11 (BAGIAN KANAN)
+        objectTree.add(new Model(
                 Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
                 ),
                 new ArrayList<>(),
-                new Vector4f(0.49f, 0.73f, 0.91f,1.0f),
-                Arrays.asList(-0.310f, 0.885f, 0.0f),
-                0.05f,
-                0.05f,
-                0.08f,
-                36,
-                18
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
         ));
-        // main body
-        makeSphere.add(new Sphere(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
-                Arrays.asList(-0.355f, 0.925f, 0.0f),
-                0.065f,
-                0.065f,
-                0.06f,
-                36,
-                18
-        ));
-        // tail
-        makeCylinder.add(new Cylinder(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
-                Arrays.asList(-0.355f, 0.925f, 0.1f),
-                0.015f,
-                0.15f,
-                36,
-                18
-        ));
-        // tail(2)
-        makeCone.add(new Cone(
-                Arrays.asList(
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER),
-                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER)
-                ),
-                new ArrayList<>(),
-                new Vector4f(0.49f, 0.73f, 0.91f,1.0f),
-                Arrays.asList(-0.355f, 0.925f, 0.175f),
-                0.035f,
-                0.055f,
-                36,
-                18,
-                2
-        ));
+        objectTree.get(11).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(11).translateObject(1.4f, -0.05f, 0f);
 
+        //pohon objectTree12
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(12).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(12).translateObject(1.4f, -0.05f, 0.5f);
+
+        //pohon objectTree13
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(13).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(13).translateObject(1.4f, -0.05f, 1f);
+
+        //pohon objectTree14
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(14).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(14).translateObject(1.4f, -0.05f, 1.5f);
+
+        //pohon objectTree15
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(15).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(15).translateObject(1.4f, -0.05f, 2f);
+
+        //pohon objectTree16
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(16).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(16).translateObject(1.4f, -0.05f, 2.5f);
+
+        //pohon objectTree17
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(17).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(17).translateObject(1.4f, -0.05f, 2.5f);
+
+        //pohon objectTree18
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(18).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(18).translateObject(1.4f, -0.05f, -0.5f);
+
+        //pohon objectTree19
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(19).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(19).translateObject(1.4f, -0.05f, -1f);
+
+        //pohon objectTree20
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(20).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(20).translateObject(1.4f, -0.05f, -1.5f);
+
+        //pohon objectTree21
+        objectTree.add(new Model(
+                Arrays.asList(
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.frag", GL_FRAGMENT_SHADER),
+                        new ShaderProgram.ShaderModuleData("resources/shaders/scene.vert", GL_VERTEX_SHADER)
+                ),
+                new ArrayList<>(),
+                new Vector4f(1.0f,0f,0f,1.0f),
+                "resources/model/pohon/pohon.obj"
+        ));
+        objectTree.get(21).scaleObject(0.05f ,0.05f, 0.05f);
+        objectTree.get(21).translateObject(1.4f, -0.05f, -2f);
     }
-
-
-
-
-
-    public void rotate(){
-        for ( float i = 0.0f; i <= (float) Math.toRadians(360.0f); i++){
-            countDegree++;
-            makeCylinder.get(2).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
-            makeCone.get(0).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
-            makeBox.get(4).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
-            makeBox.get(5).rotateObject((float) Math.toRadians(0.1f),0.0f,1.0f,0.0f);
-        }
-        // satelite's rotation
-        for (float i = (float) Math.toRadians(360.0f); i >= 0.0f; i -= (float) Math.toRadians(1.0f)) {
-            countDegree++;
-            makeSphere.get(0).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-            makeBox.get(6).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-            makeBox.get(7).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-            makeBox.get(8).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-            makeBox.get(9).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-            makeBox.get(10).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-            makeCylinder.get(9).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-            makeCone.get(7).rotateObject(-(float) Math.toRadians(1.0f), 0.0f, 1.0f, 0.0f);
-        }
-        //camera rotation
-        //x
-        for (float i = (float) Math.toRadians(360.0f); i >= 0.0f; i -= (float) Math.toRadians(1.0f)){
-            camera.addRotation( (float) Math.toRadians( i * 0.001f),0f);
-        }
-        //y
-        for (float i = (float) Math.toRadians(360.0f); i >= 0.0f; i -= (float) Math.toRadians(1.0f)){
-            camera.addRotation( 0f,(float) Math.toRadians( i * 0.001f));
-        }
-    }
-
 
     public void input() {
+        temp = objectCar.get(0).getCenterPoint();
+        angle = angle % (float) Math.toRadians(360);
 
-        //move wall-e
+        if (window.isKeyPressed(GLFW_KEY_1)){
+            cameraMode = 1;
+            System.out.println("Camera Mode: " + cameraMode);
+        }
+
+        if (window.isKeyPressed(GLFW_KEY_2)){
+            cameraMode = 2;
+            System.out.println("Camera Mode: " + cameraMode);
+        }
+
+        if (window.isKeyPressed(GLFW_KEY_W)) {
+            if (cameraMode == 0) {
+                camera.moveForward(move);
+            } else if (cameraMode == 1) {
+                objectCar.get(0).translateObject(0f, 0f, -move);
+                camera.setPosition(temp.get(0), temp.get(1) + 0.3f, temp.get(2));
+                camera.moveBackwards(distance);
+            }
+            else if (cameraMode == 2) {
+                objectCar.get(0).translateObject(0f, 0f, -move);
+                camera.setPosition(temp.get(0), temp.get(1) + 0.15f , temp.get(2) - 1.15f);
+                camera.moveBackwards(distance);
+            }
+        }
+        if (window.isKeyPressed(GLFW_KEY_A)) {
+            if (cameraMode == 0) {
+                camera.moveLeft(move);
+            } else if (cameraMode == 1) {
+                objectCar.get(0).translateObject(-move, 0f, 0f);
+                camera.setPosition(temp.get(0), temp.get(1) + 0.3f, temp.get(2));
+                camera.moveBackwards(distance);
+            }
+            else if (cameraMode == 2) {
+                objectCar.get(0).translateObject(-move, 0f, 0f);
+                camera.setPosition(temp.get(0), temp.get(1) + 0.15f , temp.get(2) - 1.15f);
+                camera.moveBackwards(distance);
+            }
+        }
+
+        if (window.isKeyPressed(GLFW_KEY_S)) {
+            if (cameraMode == 0) {
+                camera.moveBackwards(move);
+            } else if (cameraMode == 1) {
+                objectCar.get(0).translateObject(0f, 0f, move);
+                camera.setPosition(temp.get(0), temp.get(1) + 0.3f, temp.get(2));
+                camera.moveBackwards(distance);
+            }
+            else if (cameraMode == 2) {
+                objectCar.get(0).translateObject(0f, 0f, move);
+                camera.setPosition(temp.get(0), temp.get(1) + 0.15f , temp.get(2) - 1.15f);
+                camera.moveBackwards(distance);
+            }
+        }
+
+        if (window.isKeyPressed(GLFW_KEY_D)) {
+            if (cameraMode == 0) {
+                camera.moveRight(move);
+            } else if (cameraMode == 1) {
+                objectCar.get(0).translateObject(move, 0f, 0f);
+                camera.setPosition(temp.get(0), temp.get(1) + 0.3f, temp.get(2));
+                camera.moveBackwards(distance);
+            }
+            else if (cameraMode == 2) {
+                objectCar.get(0).translateObject(move, 0f, 0f);
+                camera.setPosition(temp.get(0), temp.get(1) + 0.15f , temp.get(2) - 1.15f);
+                camera.moveBackwards(distance);
+            }
+        }
+
         if (window.isKeyPressed(GLFW_KEY_UP)) {
-            for (int i = 0; i < 4; i++) {
-                makeBox.get(i).translateObject(0.0f, 0.0f, -0.01f);
-            }
-            makeCylinder.get(0).translateObject(0.0f, 0.0f, -0.01f);
-            makeCylinder.get(1).translateObject(0.0f, 0.0f, -0.01f);
-            for (int i = 0; i < 8; i++) {
-                makeEllipsoid.get(i).translateObject(0.0f, 0.0f, -0.01f);
+            if (cameraMode == 0) {
+                camera.addRotation(-0.01f, 0f);
+            } else {
+                camera.moveForward(distance);
+                camera.addRotation(-0.01f, 0f);
+                camera.moveBackwards(distance);
             }
         }
-
         if (window.isKeyPressed(GLFW_KEY_DOWN)) {
-            for (int i = 0; i < 4; i++) {
-                makeBox.get(i).translateObject(0.0f, 0.0f, 0.01f);
-            }
-            makeCylinder.get(0).translateObject(0.0f, 0.0f, 0.01f);
-            makeCylinder.get(1).translateObject(0.0f, 0.0f, 0.01f);
-            for (int i = 0; i < 8; i++) {
-                makeEllipsoid.get(i).translateObject(0.0f, 0.0f, 0.01f);
-            }
-        }
-        if (window.isKeyPressed(GLFW_KEY_RIGHT)) {
-            for (int i = 0; i < 4; i++) {
-                makeBox.get(i).translateObject(0.01f, 0.0f, 0.0f);
-            }
-            makeCylinder.get(0).translateObject(0.01f, 0.0f, 0.0f);
-            makeCylinder.get(1).translateObject(0.01f, 0.0f, 0.0f);
-            for (int i = 0; i < 8; i++) {
-                makeEllipsoid.get(i).translateObject(0.01f, 0.0f, 0.0f);
+            if (cameraMode == 0) {
+                camera.addRotation(0.01f, 0f);
+            } else {
+                camera.moveForward(distance);
+                camera.addRotation(0.01f, 0f);
+                camera.moveBackwards(distance);
             }
         }
         if (window.isKeyPressed(GLFW_KEY_LEFT)) {
-            for (int i = 0; i < 4; i++) {
-                makeBox.get(i).translateObject(-0.01f, 0.0f, 0.0f);
-            }
-            makeCylinder.get(0).translateObject(-0.01f, 0.0f, 0.0f);
-            makeCylinder.get(1).translateObject(-0.01f, 0.0f, 0.0f);
-            for (int i = 0; i < 8; i++) {
-                makeEllipsoid.get(i).translateObject(-0.01f, 0.0f, 0.0f);
-            }
-        }
-        // eve's character movements
-        // belakang
-        if (window.isKeyPressed(GLFW_KEY_I)) {
-            for (int i = 9; i < 16; i++) {
-                makeEllipsoid.get(i).translateObject(0.0f, 0.0f, -0.01f);
+            if (cameraMode == 0) {
+                camera.addRotation(0f, -0.01f);
+            } else {
+                camera.moveForward(distance);
+                camera.addRotation(0f, -0.01f);
+                camera.moveBackwards(distance);
             }
         }
-        // depan
-        if (window.isKeyPressed(GLFW_KEY_K)) {
-            for (int i = 9; i < 16; i++) {
-                makeEllipsoid.get(i).translateObject(0.0f, 0.0f, 0.01f);
-            }
-        }
-        // kanan
-        if (window.isKeyPressed(GLFW_KEY_L)) {
-            for (int i = 9; i < 16; i++) {
-                makeEllipsoid.get(i).translateObject(0.01f, 0.0f, 0.0f);
-            }
-        }
-        // kiri
-        if (window.isKeyPressed(GLFW_KEY_J)) {
-            for (int i = 9; i < 16; i++) {
-                makeEllipsoid.get(i).translateObject(-0.01f, 0.0f, 0.0f);
+        if (window.isKeyPressed(GLFW_KEY_RIGHT)) {
+            if (cameraMode == 0) {
+                camera.addRotation(0f, 0.01f);
+            } else {
+                camera.moveForward(distance);
+                camera.addRotation(0f, 0.01f);
+                camera.moveBackwards(distance);
             }
         }
 
-//            if (mouseInput.isLeftButtonPressed()) {
-//                Vector2f pos = mouseInput.getCurrentPos();
-//            System.out.println("x : "+pos.x+" y : "+pos.y);
-//                pos.x = (pos.x - (window.getWidth()) / 2.0f) /
-//                        (window.getWidth() / 2.0f);
-//                pos.y = (pos.y - (window.getHeight()) / 2.0f) /
-//                        (-window.getHeight() / 2.0f);
-//                System.out.println("x : "+pos.x+" y : "+pos.y);
-//
-//                if ((!(pos.x > 1 || pos.x < -0.97) && !(pos.y > 0.97 || pos.y < -1))) {
-//                    System.out.println("x : " + pos.x + " y : " + pos.y);
-////                objectsPointsControl.get(0).addVertices(new Vector3f(pos.x,pos.y,0));
-//                }
-//            }
-//          camera project
-//        if (window.isKeyPressed(GLFW_KEY_W)) {
-//            camera.moveForward(0.005f);
-//        }
-//        if (window.isKeyPressed(GLFW_KEY_S)) {
-//            camera.moveBackwards(0.005f);
-//        }
-//        if (window.isKeyPressed(GLFW_KEY_A)) {
-//            camera.moveLeft(0.005f);
-//        }
-//        if (window.isKeyPressed(GLFW_KEY_D)) {
-//            camera.moveRight(0.005f);
-//        }
-//        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
-//            camera.moveUp(0.005f);
-//        }
-//        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-//            camera.moveDown(0.005f);
-//        }
+        if (window.getMouseInput().isRightButtonPressed()) {
+            Vector2f displVec = window.getMouseInput().getDisplVec();
+            if (cameraMode == 2) {
+                camera.addRotation((float) Math.toRadians(displVec.x * 0.1f), (float) Math.toRadians(displVec.y * 0.1f));
+            } else {
+                camera.moveForward(distance);
+                camera.addRotation((float) Math.toRadians(displVec.x * 0.1f), (float) Math.toRadians(displVec.y * 0.1f));
+                camera.moveBackwards(distance);
+            }
+        }
 
-        float move = 0.01f;
-        if (window.isKeyPressed(GLFW_KEY_W)) {
-            camera.moveForward(move);
-        }
-        if (window.isKeyPressed(GLFW_KEY_D)) {
-            camera.moveRight(move);
-        }
-        if (window.isKeyPressed(GLFW_KEY_A)) {
-            camera.moveLeft(move);
-        }
-        if (window.isKeyPressed(GLFW_KEY_S)) {
-            camera.moveBackwards(move);
-        }
-        if (mouseInput.isLeftButtonPressed()) {
-            Vector2f displayVec = window.getMouseInput().getDisplVec();
-            camera.addRotation((float) Math.toRadians(displayVec.x * 0.01f), (float) Math.toRadians(displayVec.y * 0.01f));
-        }
-        if (window.getMouseInput().getScroll().y != 0){
-            projection.setFOV(projection.getFOV()-(window.getMouseInput().getScroll().y * 0.01f));
+        if (window.getMouseInput().getScroll().y != 0) {
+            projection.setFOV(projection.getFOV() - (window.getMouseInput().getScroll().y * 0.1f));
             window.getMouseInput().setScroll(new Vector2f());
         }
-    }
 
-    public ArrayList<Vector3f> generateBezierPoints(float firstX, float firstY, float firstZ, float secondX, float secondY, float secondZ, float thirdX, float thirdY, float thirdZ)
-    {
-        ArrayList<Vector3f> result = new ArrayList<>();
-        float newX, newY, newZ;
-        for(double i = 0; i <=1; i+= 0.01)
-        {
-            newX = (float) ((Math.pow((1-i), 2) * firstX) + (2 * (1-i) * i * secondX) + (Math.pow(i, 2) * thirdX));
-            newY = (float) ((Math.pow((1-i), 2) * firstY) + (2 * (1-i) * i * secondY) + (Math.pow(i, 2) * thirdY));
-            newZ = (float) ((Math.pow((1-i), 2) * firstZ) + (2 * (1-i) * i * secondZ) + (Math.pow(i, 2) * thirdZ));
-            result.add(new Vector3f(newX, newY, newZ));
+        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
+            if (cameraMode == 0) {
+                camera.moveUp(move);
+            }
         }
-        return result;
+
+        if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+            if (cameraMode == 0) {
+                camera.moveDown(move);
+            }
+        }
+
+//        if (window.isKeyPressed(GLFW_KEY_1) && !delay3) { // look back
+//
+//            camera.setPosition(-temp.get(0), -temp.get(1), -temp.get(2));
+//            camera.addRotation(0, (float) Math.toRadians(180f));
+//            camera.setPosition(temp.get(0), temp.get(1), temp.get(2));
+//            camera.moveBackwards(distance);
+//
+//            delay3 = true;
+//        }
     }
 
-    public void loop () {
+    public void loop() {
         while (window.isOpen()) {
             window.update();
-            glClearColor(0.0f,
-                    0.0f, 0.0f,
-                    0.0f);
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             GL.createCapabilities();
-            rotate();
+
             input();
 
-            //code
-//            for(Object object: makeSphere){
-//                object.draw(camera,projection);
-//            }
-
-            for (Object object : makeBox) {
+            // code here
+            for (Object object: objectCar) {
                 object.draw(camera, projection);
             }
 
-            for (Object object : makeCylinder) {
+            for (Object object: objectGround) {
                 object.draw(camera, projection);
             }
 
-            for (Object object : makeEllipsoid) {
+            for (Object object: objectTree) {
                 object.draw(camera, projection);
             }
 
-            for (Object object : makeCone) {
+            for (Object object: objectBarrier) {
                 object.draw(camera, projection);
             }
-            for (Object object : makeSphere) {
-                object.draw(camera, projection);
-            }
-
-//            for(Object object: objectsRectangle){
-//                object.draw();
-//            }
-//            for(Object object: objectsPointsControl){
-//                object.drawLine();
-//            }
 
             // Restore state
             glDisableVertexAttribArray(0);
-
             // Poll for window events.
             // The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
         }
     }
-    public void run() {
 
-        init();
-        loop();
-
-        // Terminate GLFW and
-        // free the error callback
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
-    }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Main().run();
     }
 }

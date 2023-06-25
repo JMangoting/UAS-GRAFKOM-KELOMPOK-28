@@ -2,7 +2,6 @@ package Engine;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
@@ -16,14 +15,13 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window {
 
     private long window;
-    private boolean open=  true;
+    private boolean open = true;
     private int width, height;
     private String title;
-
     private MouseInput mouseInput;
 
 
-    public Window(int width, int height, String title){
+    public Window(int width, int height, String title) {
         this.width = width;
         this.height = height;
         this.title = title;
@@ -45,17 +43,17 @@ public class Window {
         this.height = height;
     }
 
-    public boolean isOpen(){
+    public boolean isOpen() {
         return open;
     }
 
-    public void init(){
+    public void init() {
         //Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if ( !glfwInit() )
+        if (!glfwInit())
             throw new IllegalStateException("Unable to initialize GLFW");
 
         // Configure GLFW
@@ -64,18 +62,18 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(width+2, height+2, title, NULL, NULL);
-        if ( window == NULL )
+        window = glfwCreateWindow(width + 2, height + 2, title, NULL, NULL);
+        if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         });
 
         // Get the thread stack and push a new frame
-        try ( MemoryStack stack = stackPush() ) {
+        try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1); // int*
             IntBuffer pHeight = stack.mallocInt(1); // int*
 
@@ -103,26 +101,23 @@ public class Window {
 
         mouseInput = new MouseInput(window);
 
-        GL.createCapabilities();
-        glEnable(GL_DEPTH_TEST);
     }
 
-    public void update(){
+    public void update() {
 
         // Set the clear color
 
         glfwSwapBuffers(window); // swap the color buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-        glViewport(0,0,width,height);
+        glEnable(GL_DEPTH_TEST);
+        glViewport(0, 0, width, height);
 
-        if(glfwWindowShouldClose(window))
+        if (glfwWindowShouldClose(window))
             open = false;
-
         mouseInput.input();
-
     }
 
-    public void cleanup(){
+    public void cleanup() {
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);

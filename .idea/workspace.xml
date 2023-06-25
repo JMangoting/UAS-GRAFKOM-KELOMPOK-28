@@ -4,11 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f3455c2-fda8-40dd-b644-9496e8c777dc" name="Changes" comment="kelas 8-5-2023" />
+    <list default="true" id="1f3455c2-fda8-40dd-b644-9496e8c777dc" name="Changes" comment="kelas 8-5-2023">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/shaders/scene.frag" beforeDir="false" afterPath="$PROJECT_DIR$/resources/shaders/scene.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/shaders/scene.vert" beforeDir="false" afterPath="$PROJECT_DIR$/resources/shaders/scene.vert" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Box.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Engine/Camera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Circle.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Cone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Cylinder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Ellipsoid.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/MouseInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Engine/MouseInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Object.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Engine/Object.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Object2d.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Rectangle.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/ShaderProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Engine/ShaderProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Sphere.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Torus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/UniformsMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Engine/UniformsMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Engine/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Engine/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Engine/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Box.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Camera.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Engine/Camera.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Circle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Cone.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Cylinder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Ellipsoid.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Object.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Engine/Object.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Object2d.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Rectangle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/ShaderProgram$ShaderModuleData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Engine/ShaderProgram$ShaderModuleData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/ShaderProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Engine/ShaderProgram.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Sphere.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Torus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/UniformsMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Engine/UniformsMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Engine/Utils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Engine/Window.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Engine/Window.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,13 +78,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/KULIAH/SEMESTER 6/GRAFKOM/GrafkomA2223&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "E:/KULIAH/SEMESTER 6/GRAFKOM/GrafkomA2223",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -58,6 +107,17 @@
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
